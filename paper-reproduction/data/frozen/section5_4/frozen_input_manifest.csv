@@ -1,0 +1,9 @@
+"file","sha256","bytes"
+"g100_w050_oracle.rds","d59e26bb26ee8f2191124c05d1d34f5e5a035a1a6b3add9351db50ffb71565cc",1511
+"initial_designs_paper.rds","60a86abbd29845cc0838b63ab83d6c2d1b6dc8f42023ebd95a2b96cdc6508ebc",15461
+"physics_parameter_profiles.csv","9126c5687c03644a4ad5a9f83d9c39d130db94f6e630fb511192683760e80e41",7097
+"replication_profile_assignment.csv","dc9703d6743789ad64b90da389fa3de7f6a3b30ba4a719536f323010427e8568",515
+"section5_4_pcb_native_core_bo_curve.csv","c5579b6c637216cd7e92a731fa5ec5cc208925f15890323e3dede01dfa55180b",30827
+"section5_4_pcb_native_core_main_table.csv","b437132d586577f7b0ea48dd94250d9894fc9297c0b4616aaf9807588d7ac9b7",1604
+"section5_4_pcb_native_core_paired_vs_fsa.csv","5fc3df3b39dfb60c7dff79ab87a0b51f397baad5a9a72931c2e4ead56018439d",2972
+"seed_ledger_paper.csv","06e88947dc78c8d6ce8d010fb88c72d4e7d882dc70f144a8d1e239dd917a6de1",82287
