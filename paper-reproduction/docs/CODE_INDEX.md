@@ -44,24 +44,22 @@ domain distinction can slightly change nRMSE.
 
 | File | PDF output or role |
 |---|---|
-| `code/section5_3/build_initial_design_bank.R` | reconstruct and SHA-check the five reported initial designs |
-| `code/section5_3/run_four_drug_mallows_gp.R` | nugget-aware intercept-only Mallows-GP prediction and six EI additions |
-| `code/section5_3/make_paper_table.R` | Table 2 |
-| `data/frozen/section5_3/experiment21_parent/` | design bank, label maps, held-out folds, seeds, and step-zero summaries |
-| `data/frozen/section5_3/paper_results/` | compact formal recommendation projection used by Table 2 |
+| `code/section5_3/four_drug/build_initial_design_bank.R` | reconstruct and SHA-check the five reported initial designs |
+| `code/section5_3/four_drug/run_four_drug_mallows_gp.R` | nugget-aware intercept-only Mallows-GP prediction and six EI additions |
+| `code/section5_3/four_drug/make_paper_table.R` | Table 2 |
+| `data/frozen/section5_3/four_drug/experiment21_parent/` | design bank, label maps, held-out folds, seeds, and step-zero summaries |
+| `data/frozen/section5_3/four_drug/paper_results/` | compact formal recommendation projection used by Table 2 |
 
 ## Section 5.3: PCB case
 
-The stable internal code directory remains `section5_4`.
-
 | File | PDF output or role |
 |---|---|
-| `code/section5_4/build_frozen_inputs.R` | reconstruct four reported designs and five-profile exact oracle |
-| `code/section5_4/pcb_common.R` | fixed mixed-physics response and common surrogate |
-| `code/section5_4/run_experiment24_paper.R` | 30 BO blocks at `(gamma,omega)=(1,0.5)` |
-| `code/section5_4/make_pcb_bo_figure.R` | Figure 2, final 4:3 rendering |
-| `code/section5_4/make_pcb_table.R` | Table 3 |
-| `data/frozen/section5_4/` | coordinates, profiles, designs, oracle, pool seeds, curve, and Table 3 source |
+| `code/section5_3/pcb/build_frozen_inputs.R` | reconstruct four reported designs and five-profile exact oracle |
+| `code/section5_3/pcb/pcb_common.R` | fixed mixed-physics response and common surrogate |
+| `code/section5_3/pcb/run_experiment24_paper.R` | 30 BO blocks at `(gamma,omega)=(1,0.5)` |
+| `code/section5_3/pcb/make_pcb_bo_figure.R` | Figure 2, final 4:3 rendering |
+| `code/section5_3/pcb/make_pcb_table.R` | Table 3 |
+| `data/frozen/section5_3/pcb/` | coordinates, profiles, designs, oracle, pool seeds, curve, and Table 3 source |
 
 ## Tracked final assets
 

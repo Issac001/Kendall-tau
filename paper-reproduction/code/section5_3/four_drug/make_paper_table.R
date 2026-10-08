@@ -1,21 +1,22 @@
 # Build the Section 5.3 table from a completed paper-only Experiment 30 run.
 #
 # Usage from paper-reproduction/:
-#   SEC53_RUN_DIR=outputs/wcrit/<formal-run> \
-#     Rscript code/section5_3/make_paper_table.R
+#   SEC53_DRUG_RUN_DIR=outputs/wcrit/<formal-run> \
+#     Rscript code/section5_3/four_drug/make_paper_table.R
 
 args <- commandArgs(trailingOnly = FALSE)
 file_arg <- grep("^--file=", args, value = TRUE)
 script_file <- normalizePath(sub("^--file=", "", file_arg[[1L]]),
                              winslash = "/", mustWork = TRUE)
-project_root <- normalizePath(file.path(dirname(script_file), "..", ".."),
+project_root <- normalizePath(file.path(dirname(script_file), "..", "..", ".."),
                               winslash = "/", mustWork = TRUE)
 
 stopf <- function(...) stop(sprintf(...), call. = FALSE)
 run_raw <- Sys.getenv(
-  "SEC53_RUN_DIR",
+  "SEC53_DRUG_RUN_DIR",
   unset = file.path(
-    project_root, "data", "frozen", "section5_3", "paper_results"
+    project_root, "data", "frozen", "section5_3", "four_drug",
+    "paper_results"
   )
 )
 run_dir <- if (grepl("^/", run_raw)) run_raw else file.path(project_root, run_raw)
@@ -93,8 +94,8 @@ out <- out[c("display_method", "method", "nrmse_common_mean",
              "cumulative_regret", "top_one_at_16")]
 
 output_raw <- Sys.getenv(
-  "SEC53_OUTPUT_DIR",
-  unset = file.path(project_root, "outputs", "section5_3_paper_sources")
+  "SEC53_DRUG_OUTPUT_DIR",
+  unset = file.path(project_root, "outputs", "section5_3_four_drug_paper_sources")
 )
 output_dir <- if (grepl("^/", output_raw)) {
   output_raw
@@ -102,6 +103,6 @@ output_dir <- if (grepl("^/", output_raw)) {
   file.path(project_root, output_raw)
 }
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
-output_path <- file.path(output_dir, "section5_3_main_table.csv")
+output_path <- file.path(output_dir, "section5_3_four_drug_table.csv")
 utils::write.csv(out, output_path, row.names = FALSE)
 message("Wrote ", output_path)

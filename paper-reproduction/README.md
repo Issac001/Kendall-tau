@@ -11,12 +11,12 @@ figure assets needed to audit the numerical work in Section 5 and Appendix B.
 |---|---|---|
 | Section 5.1 and Appendix B.1 | strict-foldover FSA-KD, Hamming, component-position L2, and SRS; Mallows scales `c=1,4` | `code/section5_1/` |
 | Section 5.2 | separate PWO and Mallows-GP response experiments for the same four strict-foldover methods | `code/section5_2/` |
-| Section 5.3, four-drug case | exact strict-foldover FSA-KD, OofA-OA, unrestricted Hamming, unrestricted component-position L2, and unrestricted SRS | `code/section5_3/` |
-| Section 5.3, PCB case | strict-foldover FSA-KD and unrestricted Hamming, component-position L2, and SRS at `(gamma, omega)=(1,0.5)` | `code/section5_4/` |
+| Section 5.3, four-drug case | exact strict-foldover FSA-KD, OofA-OA, unrestricted Hamming, unrestricted component-position L2, and unrestricted SRS | `code/section5_3/four_drug/` |
+| Section 5.3, PCB case | strict-foldover FSA-KD and unrestricted Hamming, component-position L2, and SRS at `(gamma, omega)=(1,0.5)` | `code/section5_3/pcb/` |
 
-The internal `section5_4` directory name is retained for path stability; the
-final PDF places both applications in Section 5.3. Throughout the bundle, `L2`
-means component-position (inverse-position) L2.
+Both application studies are grouped under `code/section5_3/`, matching the
+final PDF. Throughout the bundle, `L2` means component-position
+(inverse-position) L2.
 
 The earlier lambda-sensitivity Experiment 01, Kendall-maximin comparison arms,
 unrestricted Section 5.1/5.2 sensitivities, strict application baselines,
@@ -31,9 +31,9 @@ From `paper-reproduction/`:
 ```sh
 Rscript code/section5_1/make_geometry_tradeoff_figures.R
 Rscript code/section5_2/summarize_paper_results.R
-Rscript code/section5_3/make_paper_table.R
-Rscript code/section5_4/make_pcb_bo_figure.R
-Rscript code/section5_4/make_pcb_table.R
+Rscript code/section5_3/four_drug/make_paper_table.R
+Rscript code/section5_3/pcb/make_pcb_bo_figure.R
+Rscript code/section5_3/pcb/make_pcb_table.R
 ```
 
 These commands use tracked frozen inputs and write working files below

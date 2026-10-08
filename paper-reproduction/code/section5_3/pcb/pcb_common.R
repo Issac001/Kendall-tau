@@ -1,9 +1,9 @@
 # Core functions for the paper-only Experiment 24 reproduction.
 #
 # This file intentionally contains only the response and surrogate machinery
-# used by Section 5.4: one strong mixed-physics response and one additive
+# used by the PCB case in Section 5.3: one strong mixed-physics response and one additive
 # Kendall--directed-adjacency GP.  Initial-design construction is not repeated;
-# the four frozen paper designs are supplied in data/frozen/section5_4.
+# the four frozen paper designs are supplied in data/frozen/section5_3/pcb.
 
 pcb_stop <- function(...) stop(sprintf(...), call. = FALSE)
 

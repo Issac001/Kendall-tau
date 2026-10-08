@@ -2,8 +2,7 @@
 
 This directory is the paper-only reproduction of Experiment 24. Its executable
 scope is deliberately fixed to the PCB analysis reported under Section 5.3 of
-the September 24, 2026 review PDF. The directory name `section5_4` is retained
-only as a stable internal code path from an earlier manuscript numbering:
+the September 24, 2026 review PDF:
 
 - scenario `g100_w050`, i.e. `(gamma, omega) = (1, 0.5)`;
 - 10 holes, 20 initial routes, 40 BO additions and 30 paired replications;
@@ -23,8 +22,9 @@ Rebuild the frozen four-method initial-design bank and the five-profile exact
 `g100_w050` oracle from their seeds and physical definitions:
 
 ```bash
-SEC54_BUILD_REPS=30 SEC54_BUILD_WORKERS=4 SEC54_BUILD_EXACT_ORACLE=true \
-  Rscript code/section5_4/build_frozen_inputs.R
+SEC53_PCB_BUILD_REPS=30 SEC53_PCB_BUILD_WORKERS=4 \
+  SEC53_PCB_BUILD_EXACT_ORACLE=true \
+  Rscript code/section5_3/pcb/build_frozen_inputs.R
 ```
 
 This constructor performs the original searches (6,000 native FSA proposal
@@ -32,28 +32,29 @@ iterations; 6,000 complete objective evaluations for each unrestricted SA
 competitor), draws the no-search SRS routes, enumerates all
 `10!` routes separately for each of the five physics profiles, and verifies the
 result against the bundled frozen hashes. For a quick design-construction check,
-set `SEC54_BUILD_REPS=1 SEC54_BUILD_EXACT_ORACLE=false`.
+set `SEC53_PCB_BUILD_REPS=1 SEC53_PCB_BUILD_EXACT_ORACLE=false`.
 
 Full paired experiment (parallelize replications on a Unix-like host):
 
 ```bash
-SEC54_REPS=30 SEC54_T=40 SEC54_WORKERS=8 \
-  Rscript code/section5_4/run_experiment24_paper.R
+SEC53_PCB_REPS=30 SEC53_PCB_T=40 SEC53_PCB_WORKERS=8 \
+  Rscript code/section5_3/pcb/run_experiment24_paper.R
 ```
 
 Short deterministic smoke run (the candidate pool remains the formal 5,000-route
 pool, so its first acquisition can be compared with the frozen run):
 
 ```bash
-SEC54_REPS=1 SEC54_T=1 SEC54_OUT=outputs/sec54_smoke \
-  Rscript code/section5_4/run_experiment24_paper.R
+SEC53_PCB_REPS=1 SEC53_PCB_T=1 \
+  SEC53_PCB_OUT=outputs/section5_3_pcb_smoke \
+  Rscript code/section5_3/pcb/run_experiment24_paper.R
 ```
 
 Recreate the manuscript figure directly from the frozen paper curve:
 
 ```bash
-Rscript code/section5_4/make_pcb_bo_figure.R
-Rscript code/section5_4/make_pcb_table.R
+Rscript code/section5_3/pcb/make_pcb_bo_figure.R
+Rscript code/section5_3/pcb/make_pcb_table.R
 ```
 
 This writes the manuscript-source names `fig6_pcb_regret.pdf` and
@@ -68,7 +69,7 @@ a numerical tolerance of `1e-10`.
 
 ## Frozen inputs and provenance
 
-`data/frozen/section5_4/initial_designs_paper.rds` is a lossless four-method
+`data/frozen/section5_3/pcb/initial_designs_paper.rds` is a lossless four-method
 projection of the frozen Experiment 24 initial-design bank. It contains no
 design from an unreported method. `g100_w050_oracle.rds` is likewise a projection
 containing only the five physical-profile oracles and standardization objects

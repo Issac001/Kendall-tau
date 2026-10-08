@@ -22,9 +22,9 @@ code-to-manuscript map is recorded in `CODE_INDEX.md`.
 |---|---|
 | Figure 1 | `code/section5_1/make_geometry_tradeoff_figures.R`; `manuscript_assets/fig2_tradeoff_theta_1.pdf` |
 | Table 1 | `code/section5_2/summarize_paper_results.R`; `manuscript_assets/table1_model_validation.csv` |
-| Table 2 | `code/section5_3/make_paper_table.R`; `manuscript_assets/table2_four_drug.csv` |
-| Figure 2 | `code/section5_4/make_pcb_bo_figure.R`; `manuscript_assets/fig6_pcb_regret.pdf` |
-| Table 3 | `code/section5_4/make_pcb_table.R`; `manuscript_assets/table3_pcb.csv` |
+| Table 2 | `code/section5_3/four_drug/make_paper_table.R`; `manuscript_assets/table2_four_drug.csv` |
+| Figure 2 | `code/section5_3/pcb/make_pcb_bo_figure.R`; `manuscript_assets/fig6_pcb_regret.pdf` |
+| Table 3 | `code/section5_3/pcb/make_pcb_table.R`; `manuscript_assets/table3_pcb.csv` |
 | Figure B1 | `code/section5_1/make_geometry_tradeoff_figures.R`; `manuscript_assets/figS_tradeoff_theta_4.pdf` |
 
 The legacy filename prefixes `fig2`, `fig6`, and `figS` are retained because

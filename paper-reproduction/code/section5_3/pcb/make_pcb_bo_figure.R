@@ -8,17 +8,20 @@ options(stringsAsFactors = FALSE)
 .this_dir <- if (length(.idx)) {
   dirname(normalizePath(sub("^--file=", "", .args[.idx[[1L]]]), mustWork = TRUE))
 } else normalizePath(getwd(), mustWork = TRUE)
-.repro_root <- normalizePath(file.path(.this_dir, "..", ".."), mustWork = TRUE)
+.repro_root <- normalizePath(
+  file.path(.this_dir, "..", "..", ".."), mustWork = TRUE
+)
 source(file.path(.repro_root, "code", "common", "paper_plot_style.R"), local = FALSE)
 
 if (!requireNamespace("ggplot2", quietly = TRUE)) stop("Package 'ggplot2' is required")
 input <- path.expand(Sys.getenv(
-  "SEC54_CURVE",
-  unset = file.path(.repro_root, "data", "frozen", "section5_4",
-                    "section5_4_pcb_native_core_bo_curve.csv")
+  "SEC53_PCB_CURVE",
+  unset = file.path(.repro_root, "data", "frozen", "section5_3", "pcb",
+                    "section5_3_pcb_native_core_bo_curve.csv")
 ))
 output <- path.expand(Sys.getenv(
-  "SEC54_FIGURE_DIR", unset = file.path(.repro_root, "outputs", "section5_4_figure")
+  "SEC53_PCB_FIGURE_DIR",
+  unset = file.path(.repro_root, "outputs", "section5_3_pcb_figure")
 ))
 dir.create(output, recursive = TRUE, showWarnings = FALSE)
 
@@ -68,4 +71,4 @@ png <- file.path(output, "fig6_pcb_regret.png")
 paper_save_pdf(p, pdf, 6.4, 4.8)
 ggplot2::ggsave(png, p, width = 6.4, height = 4.8, units = "in",
                 dpi = 400, bg = "white", limitsize = FALSE)
-message("Section 5.4 figure written to: ", normalizePath(output, mustWork = TRUE))
+message("Section 5.3 PCB figure written to: ", normalizePath(output, mustWork = TRUE))

@@ -61,9 +61,11 @@ assert(near(table1$pwo_ipv_full_space, expected_ipv),
        "Table 1 values drifted")
 
 # Four-drug case: five methods, the primary Mallows GP, and all seven BO checks.
-drug_pred <- read_csv("data", "frozen", "section5_3", "paper_results",
+drug_pred <- read_csv("data", "frozen", "section5_3", "four_drug",
+                      "paper_results",
                       "results", "initial_prediction_summary.csv")
-drug_path <- read_csv("data", "frozen", "section5_3", "paper_results",
+drug_path <- read_csv("data", "frozen", "section5_3", "four_drug",
+                      "paper_results",
                       "raw", "recommendation.csv")
 assert(nrow(drug_pred) == 5L &&
          identical(unique(drug_pred$model), "Intercept_Mallows_GP"),
@@ -78,8 +80,8 @@ assert(near(table2$cumulative_regret[[1L]], 1.65666666666667),
        "Table 2 values drifted")
 
 # PCB case: one preselected scenario, four methods, and 41 checkpoints.
-pcb_curve <- read_csv("data", "frozen", "section5_4",
-                      "section5_4_pcb_native_core_bo_curve.csv")
+pcb_curve <- read_csv("data", "frozen", "section5_3", "pcb",
+                      "section5_3_pcb_native_core_bo_curve.csv")
 assert(nrow(pcb_curve) == 164L &&
          identical(unique(pcb_curve$scenario), "g100_w050") &&
          setequal(unique(pcb_curve$step), 0:40),

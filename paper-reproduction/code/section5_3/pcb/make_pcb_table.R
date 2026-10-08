@@ -6,17 +6,17 @@ args <- commandArgs(trailingOnly = FALSE)
 file_arg <- grep("^--file=", args, value = TRUE)
 script_file <- normalizePath(sub("^--file=", "", file_arg[[1L]]),
                              winslash = "/", mustWork = TRUE)
-root <- normalizePath(file.path(dirname(script_file), "..", ".."),
+root <- normalizePath(file.path(dirname(script_file), "..", "..", ".."),
                       winslash = "/", mustWork = TRUE)
 
 input_raw <- Sys.getenv(
-  "SEC54_TABLE_INPUT",
-  unset = file.path(root, "data", "frozen", "section5_4",
-                    "section5_4_pcb_native_core_main_table.csv")
+  "SEC53_PCB_TABLE_INPUT",
+  unset = file.path(root, "data", "frozen", "section5_3", "pcb",
+                    "section5_3_pcb_native_core_main_table.csv")
 )
 output_raw <- Sys.getenv(
-  "SEC54_TABLE_OUTPUT",
-  unset = file.path(root, "outputs", "section5_4_table", "table3_pcb.csv")
+  "SEC53_PCB_TABLE_OUTPUT",
+  unset = file.path(root, "outputs", "section5_3_pcb_table", "table3_pcb.csv")
 )
 input <- path.expand(input_raw)
 output <- path.expand(output_raw)

@@ -10,9 +10,13 @@ options(stringsAsFactors = FALSE, warn = 1)
 .this_dir <- if (length(.idx)) {
   dirname(normalizePath(sub("^--file=", "", .args[.idx[[1L]]]), mustWork = TRUE))
 } else normalizePath(getwd(), mustWork = TRUE)
-.repro_root <- normalizePath(file.path(.this_dir, "..", ".."), mustWork = TRUE)
+.repro_root <- normalizePath(
+  file.path(.this_dir, "..", "..", ".."), mustWork = TRUE
+)
 .common_dir <- file.path(.repro_root, "code", "common")
-.reference_dir <- file.path(.repro_root, "data", "frozen", "section5_4")
+.reference_dir <- file.path(
+  .repro_root, "data", "frozen", "section5_3", "pcb"
+)
 
 for (pkg in c("Rcpp", "digest", "gtools", "dplyr", "tidyr", "ggplot2")) {
   if (!requireNamespace(pkg, quietly = TRUE)) stop("Required R package is missing: ", pkg)
@@ -34,11 +38,12 @@ read_bool <- function(name, default) {
   x %in% c("true", "1", "yes")
 }
 
-reps <- read_int("SEC54_BUILD_REPS", 30L, 1L, 30L)
-build_workers <- read_int("SEC54_BUILD_WORKERS", 1L, 1L, 30L)
-build_exact_oracle <- read_bool("SEC54_BUILD_EXACT_ORACLE", TRUE)
+reps <- read_int("SEC53_PCB_BUILD_REPS", 30L, 1L, 30L)
+build_workers <- read_int("SEC53_PCB_BUILD_WORKERS", 1L, 1L, 30L)
+build_exact_oracle <- read_bool("SEC53_PCB_BUILD_EXACT_ORACLE", TRUE)
 out_dir <- path.expand(Sys.getenv(
-  "SEC54_BUILD_OUT", unset = file.path(.repro_root, "outputs", "section5_4_frozen_rebuild")
+  "SEC53_PCB_BUILD_OUT",
+  unset = file.path(.repro_root, "outputs", "section5_3_pcb_frozen_rebuild")
 ))
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -161,7 +166,7 @@ if (build_workers > 1L && .Platform$OS.type != "windows") {
 failed <- which(vapply(designs, inherits, logical(1L), what = "try-error"))
 if (length(failed)) {
   stop("Design reconstruction failed for replication(s): ", paste(failed, collapse = ","),
-       ". Rerun those replications with SEC54_BUILD_WORKERS=1 for full diagnostics.")
+       ". Rerun those replications with SEC53_PCB_BUILD_WORKERS=1 for full diagnostics.")
 }
 
 design_output <- list(

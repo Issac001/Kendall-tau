@@ -6,7 +6,7 @@ options(stringsAsFactors = FALSE, warn = 1)
 .args <- commandArgs(trailingOnly = FALSE)
 .file <- grep("^--file=", .args, value = TRUE)
 .here <- dirname(normalizePath(sub("^--file=", "", .file[[1L]]), mustWork = TRUE))
-.root <- normalizePath(file.path(.here, "..", ".."), mustWork = TRUE)
+.root <- normalizePath(file.path(.here, "..", "..", ".."), mustWork = TRUE)
 .common <- file.path(.root, "code", "common")
 
 for (pkg in c("Rcpp", "digest", "dplyr", "gtools")) {
@@ -17,12 +17,15 @@ source(file.path(.common, "wcrit_maximin_dist.R"), local = FALSE)
 source(file.path(.common, "case_study_common.R"), local = FALSE)
 
 stopf <- function(...) stop(sprintf(...), call. = FALSE)
-frozen_dir <- file.path(.root, "data", "frozen", "section5_3", "experiment21_parent")
+frozen_dir <- file.path(
+  .root, "data", "frozen", "section5_3", "four_drug", "experiment21_parent"
+)
 ledger <- utils::read.csv(file.path(frozen_dir, "config", "seed_ledger.csv"),
                           stringsAsFactors = FALSE, check.names = FALSE)
 frozen <- readRDS(file.path(frozen_dir, "designs", "design_bank.rds"))
 output <- path.expand(Sys.getenv(
-  "SEC53_BANK_OUTPUT", unset = file.path(.root, "outputs", "section5_3_design_bank")
+  "SEC53_DRUG_BANK_OUTPUT",
+  unset = file.path(.root, "outputs", "section5_3_four_drug_design_bank")
 ))
 dir.create(output, recursive = TRUE, showWarnings = FALSE)
 

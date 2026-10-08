@@ -34,7 +34,8 @@
 } else dirname(.wcrit21_this_file)
 
 .wcrit_public_common <- normalizePath(
-  file.path(.wcrit21_dir, "..", "common"), winslash = "/", mustWork = TRUE
+  file.path(.wcrit21_dir, "..", "..", "common"),
+  winslash = "/", mustWork = TRUE
 )
 source(file.path(.wcrit_public_common, "wcrit_common.R"), local = FALSE)
 source(file.path(.wcrit_public_common, "wcrit_maximin_dist.R"), local = FALSE)
@@ -1280,7 +1281,8 @@ wcrit21_main <- function() {
   cfg <- wcrit21_config()
   project_root <- wcrit_project_root()
   parent_default <- file.path(
-    project_root, "data", "frozen", "section5_3", "experiment21_parent"
+    project_root, "data", "frozen", "section5_3", "four_drug",
+    "experiment21_parent"
   )
   parent_raw <- Sys.getenv("WCRIT30_PARENT_DIR", unset = parent_default)
   if (!grepl("^/", parent_raw)) parent_raw <- file.path(project_root, parent_raw)

@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# Paper-only rerun of Section 5.4 (Experiment 24).
+# Paper-only rerun of the PCB case in Section 5.3 (Experiment 24).
 # Fixed scope: g100_w050 and the four methods printed in the manuscript.
 
 options(stringsAsFactors = FALSE, warn = 1)
@@ -10,9 +10,11 @@ options(stringsAsFactors = FALSE, warn = 1)
 .this_dir <- if (length(.idx)) {
   dirname(normalizePath(sub("^--file=", "", .args[.idx[[1L]]]), mustWork = TRUE))
 } else normalizePath(getwd(), mustWork = TRUE)
-.repro_root <- normalizePath(file.path(.this_dir, "..", ".."), mustWork = TRUE)
+.repro_root <- normalizePath(
+  file.path(.this_dir, "..", "..", ".."), mustWork = TRUE
+)
 .common_dir <- file.path(.repro_root, "code", "common")
-.frozen_dir <- file.path(.repro_root, "data", "frozen", "section5_4")
+.frozen_dir <- file.path(.repro_root, "data", "frozen", "section5_3", "pcb")
 
 for (pkg in c("Rcpp", "digest", "gtools")) {
   if (!requireNamespace(pkg, quietly = TRUE)) stop("Required R package is missing: ", pkg)
@@ -29,11 +31,12 @@ read_int <- function(name, default, lower, upper) {
   value
 }
 
-reps <- read_int("SEC54_REPS", 30L, 1L, 30L)
-n_seq <- read_int("SEC54_T", 40L, 1L, 40L)
-workers <- read_int("SEC54_WORKERS", 1L, 1L, 30L)
+reps <- read_int("SEC53_PCB_REPS", 30L, 1L, 30L)
+n_seq <- read_int("SEC53_PCB_T", 40L, 1L, 40L)
+workers <- read_int("SEC53_PCB_WORKERS", 1L, 1L, 30L)
 out_dir <- path.expand(Sys.getenv(
-  "SEC54_OUT", unset = file.path(.repro_root, "outputs", "section5_4_experiment24_paper")
+  "SEC53_PCB_OUT",
+  unset = file.path(.repro_root, "outputs", "section5_3_pcb_experiment24_paper")
 ))
 dir.create(file.path(out_dir, "checkpoints"), recursive = TRUE, showWarnings = FALSE)
 
@@ -56,7 +59,7 @@ manifest_observed <- vapply(
   algo = "sha256", serialize = FALSE
 )
 if (!identical(unname(manifest_observed), as.character(manifest$sha256))) {
-  pcb_stop("Frozen Section 5.4 input manifest verification failed")
+  pcb_stop("Frozen Section 5.3 PCB input manifest verification failed")
 }
 coordinate_sha <- digest::digest(
   file = inputs[["coordinates"]], algo = "sha256", serialize = FALSE
@@ -245,7 +248,7 @@ config <- data.frame(
 )
 utils::write.csv(config, file.path(out_dir, "run_config.csv"), row.names = FALSE)
 
-reference_path <- file.path(.frozen_dir, "section5_4_pcb_native_core_bo_curve.csv")
+reference_path <- file.path(.frozen_dir, "section5_3_pcb_native_core_bo_curve.csv")
 reference_check <- data.frame(applicable = FALSE, max_abs_mean_difference = NA_real_, pass = NA)
 if (reps == 30L && n_seq == 40L && file.exists(reference_path)) {
   reference <- utils::read.csv(reference_path, check.names = FALSE)
@@ -258,4 +261,4 @@ if (reps == 30L && n_seq == 40L && file.exists(reference_path)) {
   if (!reference_check$pass) pcb_stop("Formal paper-curve reproduction check failed")
 }
 utils::write.csv(reference_check, file.path(out_dir, "frozen_reference_audit.csv"), row.names = FALSE)
-message("Section 5.4 paper-only run complete: ", normalizePath(out_dir, mustWork = TRUE))
+message("Section 5.3 PCB run complete: ", normalizePath(out_dir, mustWork = TRUE))
