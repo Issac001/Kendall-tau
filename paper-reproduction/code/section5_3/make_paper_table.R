@@ -12,8 +12,12 @@ project_root <- normalizePath(file.path(dirname(script_file), "..", ".."),
                               winslash = "/", mustWork = TRUE)
 
 stopf <- function(...) stop(sprintf(...), call. = FALSE)
-run_raw <- Sys.getenv("SEC53_RUN_DIR", unset = "")
-if (!nzchar(run_raw)) stopf("Set SEC53_RUN_DIR to a completed Section 5.3 run")
+run_raw <- Sys.getenv(
+  "SEC53_RUN_DIR",
+  unset = file.path(
+    project_root, "data", "frozen", "section5_3", "paper_results"
+  )
+)
 run_dir <- if (grepl("^/", run_raw)) run_raw else file.path(project_root, run_raw)
 run_dir <- normalizePath(run_dir, winslash = "/", mustWork = TRUE)
 
@@ -88,7 +92,15 @@ out$display_method <- unname(labels[out$method])
 out <- out[c("display_method", "method", "nrmse_common_mean",
              "cumulative_regret", "top_one_at_16")]
 
-output_dir <- file.path(run_dir, "paper_sources")
+output_raw <- Sys.getenv(
+  "SEC53_OUTPUT_DIR",
+  unset = file.path(project_root, "outputs", "section5_3_paper_sources")
+)
+output_dir <- if (grepl("^/", output_raw)) {
+  output_raw
+} else {
+  file.path(project_root, output_raw)
+}
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
 output_path <- file.path(output_dir, "section5_3_main_table.csv")
 utils::write.csv(out, output_path, row.names = FALSE)

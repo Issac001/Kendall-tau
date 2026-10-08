@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 
-# Recreate the square Section 5.4 BO figure from the frozen paper-only CSV.
+# Recreate Figure 2, the 4:3 PCB BO figure, from the frozen paper-only CSV.
 
 options(stringsAsFactors = FALSE)
 .args <- commandArgs(trailingOnly = FALSE)
@@ -63,9 +63,9 @@ p <- paper_add_method_scales(
   linetype = ggplot2::guide_legend(nrow = 1)
 )
 
-pdf <- file.path(output, "fig6_pcb_gamma1_uniform.pdf")
-png <- file.path(output, "fig6_pcb_gamma1_uniform.png")
-paper_save_pdf(p, pdf, 5.2, 5.2)
-ggplot2::ggsave(png, p, width = 5.2, height = 5.2, units = "in",
+pdf <- file.path(output, "fig6_pcb_regret.pdf")
+png <- file.path(output, "fig6_pcb_regret.png")
+paper_save_pdf(p, pdf, 6.4, 4.8)
+ggplot2::ggsave(png, p, width = 6.4, height = 4.8, units = "in",
                 dpi = 400, bg = "white", limitsize = FALSE)
 message("Section 5.4 figure written to: ", normalizePath(output, mustWork = TRUE))

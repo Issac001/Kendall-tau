@@ -174,10 +174,10 @@ sec51_tradeoff_main <- function() {
     }
     for (m_value in m_order) draw_row_strip(m_value)
     draw_legend()
-    graphics::mtext("PWO absolute MS efficiency", side = 1, outer = TRUE,
+    graphics::mtext("Normalized PWO MS moment score", side = 1, outer = TRUE,
                     line = 1.12, cex = 0.69)
     graphics::mtext(
-      sprintf("Mallows determinant-root (c = %d)", c_value),
+      sprintf("Mallows determinant-root criterion (c = %d)", c_value),
       side = 2, outer = TRUE, line = 1.68, cex = 0.69, las = 0
     )
   }
@@ -206,9 +206,9 @@ sec51_tradeoff_main <- function() {
     }
     means_rows[[as.character(c_value)]] <- means
     filename <- if (c_value == 1L) {
-      "fig2_geometry_tradeoff_uniform.pdf"
+      "fig2_tradeoff_theta_1.pdf"
     } else {
-      "figS_geometry_tradeoff_c4_uniform.pdf"
+      "figS_tradeoff_theta_4.pdf"
     }
     path <- file.path(output, filename)
     grDevices::cairo_pdf(path, width = 5.6, height = 4.5,

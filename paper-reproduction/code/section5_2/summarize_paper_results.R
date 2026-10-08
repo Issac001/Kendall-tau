@@ -1,7 +1,7 @@
 # Publication-only postprocessing for Section 5.2.
 #
-# Produces the n=48/n=60 table and paired baseline-minus-FSA-KD intervals for
-# exactly the four methods and four response scenarios reported in the paper.
+# Produces the n=48/n=60 table for exactly the four methods and four response
+# scenarios reported in the paper.
 
 args <- commandArgs(trailingOnly = FALSE)
 file_arg <- grep("^--file=", args, value = TRUE)
@@ -11,11 +11,19 @@ project_root <- normalizePath(file.path(dirname(script_file), "..", ".."),
                               winslash = "/", mustWork = TRUE)
 stopf <- function(...) stop(sprintf(...), call. = FALSE)
 
-run_raw <- Sys.getenv("SEC52_RUN_DIR", unset = "")
-if (!nzchar(run_raw)) stopf("Set SEC52_RUN_DIR to a completed Section 5.2 run")
+run_raw <- Sys.getenv(
+  "SEC52_RUN_DIR",
+  unset = file.path(
+    project_root, "data", "frozen", "section5_2",
+    "formal_parent_projection"
+  )
+)
 run_dir <- if (grepl("^/", run_raw)) run_raw else file.path(project_root, run_raw)
 run_dir <- normalizePath(run_dir, winslash = "/", mustWork = TRUE)
-out_raw <- Sys.getenv("SEC52_OUTPUT_DIR", unset = file.path(run_dir, "paper_sources"))
+out_raw <- Sys.getenv(
+  "SEC52_OUTPUT_DIR",
+  unset = file.path(project_root, "outputs", "section5_2_paper_sources")
+)
 out_dir <- if (grepl("^/", out_raw)) out_raw else file.path(project_root, out_raw)
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -92,56 +100,5 @@ if (nrow(table_out) != 8L || anyNA(table_out)) {
 }
 utils::write.csv(table_out,
                  file.path(out_dir, "section5_2_main_table.csv"),
-                 row.names = FALSE)
-
-# One frozen common-replication bootstrap tape is shared across all cells.
-B <- as.integer(Sys.getenv("SEC52_BOOTSTRAP_B", unset = "10000"))
-bootstrap_seed <- as.integer(Sys.getenv("SEC52_BOOTSTRAP_SEED",
-                                        unset = "20260901"))
-if (!is.finite(B) || B < 100L || !is.finite(bootstrap_seed)) {
-  stopf("Invalid bootstrap configuration")
-}
-rep_ids <- sort(unique(cross$rep))
-set.seed(bootstrap_seed)
-counts <- t(replicate(B, tabulate(sample(seq_along(rep_ids),
-                                     length(rep_ids), replace = TRUE),
-                                  nbins = length(rep_ids))))
-
-paired_rows <- list()
-cursor <- 0L
-for (n_value in sort(unique(cross$n))) {
-  for (scenario in scenarios) {
-    reference <- cross[cross$n == n_value & cross$scenario_id == scenario &
-                         cross$method_id == "FSA_lambda050",
-                       c("rep", "absolute_loss")]
-    reference <- reference[match(rep_ids, reference$rep), ]
-    for (method in methods[-1L]) {
-      comparator <- cross[cross$n == n_value &
-                            cross$scenario_id == scenario &
-                            cross$method_id == method,
-                          c("rep", "absolute_loss")]
-      comparator <- comparator[match(rep_ids, comparator$rep), ]
-      if (anyNA(reference) || anyNA(comparator)) stopf("Incomplete paired cell")
-      difference <- comparator$absolute_loss - reference$absolute_loss
-      boot <- as.numeric(counts %*% difference) / length(rep_ids)
-      ci <- stats::quantile(boot, c(0.025, 0.975), type = 8, names = FALSE)
-      cursor <- cursor + 1L
-      paired_rows[[cursor]] <- data.frame(
-        n = n_value, scenario_id = scenario,
-        comparator = unname(labels[[method]]), comparator_id = method,
-        reference = "FSA-KD", reference_id = "FSA_lambda050",
-        mean_difference_baseline_minus_fsa = mean(difference),
-        ci95_low = ci[[1L]], ci95_high = ci[[2L]],
-        bootstrap_B = B, bootstrap_seed = bootstrap_seed,
-        ci_method = "common-replication percentile bootstrap, quantile type 8",
-        stringsAsFactors = FALSE
-      )
-    }
-  }
-}
-paired <- do.call(rbind, paired_rows)
-if (nrow(paired) != 24L) stopf("Expected 2 x 4 x 3 paired contrasts")
-utils::write.csv(paired,
-                 file.path(out_dir, "section5_2_paired_intervals.csv"),
                  row.names = FALSE)
 message("Wrote publication sources under ", out_dir)

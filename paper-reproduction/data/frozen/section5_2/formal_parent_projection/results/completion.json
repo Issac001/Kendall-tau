@@ -1,0 +1,9 @@
+{
+  "status": "complete",
+  "projection": "four reported methods from the nine-method formal parent",
+  "parent_protocol_hash": "db6cb901415724b9f55892557a81f2cbcc3e7f91cf2f712ea45b7b9a2b1eb5a5",
+  "n_values": [48, 60],
+  "replications": 50,
+  "methods": ["FSA_lambda050", "SA_hamming_foldover", "SA_l2_position_foldover", "random_foldover"],
+  "test_domain": "frozen nine-method parent union"
+}

@@ -1,7 +1,9 @@
-# Section 5.4: physics-augmented PCB drilling
+# PCB case study (second application in Section 5.3)
 
 This directory is the paper-only reproduction of Experiment 24. Its executable
-scope is deliberately fixed to the analysis reported in Section 5.4:
+scope is deliberately fixed to the PCB analysis reported under Section 5.3 of
+the September 24, 2026 review PDF. The directory name `section5_4` is retained
+only as a stable internal code path from an earlier manuscript numbering:
 
 - scenario `g100_w050`, i.e. `(gamma, omega) = (1, 0.5)`;
 - 10 holes, 20 initial routes, 40 BO additions and 30 paired replications;
@@ -51,10 +53,13 @@ Recreate the manuscript figure directly from the frozen paper curve:
 
 ```bash
 Rscript code/section5_4/make_pcb_bo_figure.R
+Rscript code/section5_4/make_pcb_table.R
 ```
 
-This writes the manuscript-matching names `fig6_pcb_gamma1_uniform.pdf` and
-`fig6_pcb_gamma1_uniform.png`.
+This writes the manuscript-source names `fig6_pcb_regret.pdf` and
+`fig6_pcb_regret.png` at the final 4:3 aspect ratio (6.4 by 4.8 inches), with
+all 41 evaluation checkpoints and the frozen uncertainty ribbons. The second
+command writes the compact four-row Table 3 CSV.
 
 The full runner writes per-replication resumable checkpoints and compact raw
 trajectory/acquisition CSVs. When all 30 replications and 40 steps are run, it
@@ -68,8 +73,10 @@ projection of the frozen Experiment 24 initial-design bank. It contains no
 design from an unreported method. `g100_w050_oracle.rds` is likewise a projection
 containing only the five physical-profile oracles and standardization objects
 for the reported scenario. The profile table, balanced replication assignment,
-candidate-pool seeds, paper curve, paper table, and paired contrasts are included
-beside them. `frozen_input_manifest.csv` records their hashes.
+candidate-pool seeds, paper curve, and paper table are included beside them.
+The previously frozen paired-contrast CSV is retained only as an archival
+provenance record and is not used by the current PDF. `frozen_input_manifest.csv`
+records all retained hashes.
 
 The upstream formal run was
 `24_pcb_physics_formal_server_20260822_01`, protocol SHA-256
@@ -79,9 +86,10 @@ The PCB coordinate snapshot SHA-256 is
 
 The original held-out prediction set excluded the union of every design arm in
 the larger frozen Experiment 24. Those removed arms are intentionally not
-published here. Consequently, the exact paper nRMSE is retained in
-`section5_4_pcb_native_core_main_table.csv`; the paper-only runner recomputes the
-four BO paths, not that larger-union held-out prediction diagnostic.
+published here. That prediction diagnostic is not reported in the current PDF.
+The tracked main table and the paper-only runner cover the three reported
+sequential quantities: cumulative standardized regret, final standardized
+regret, and oracle-defined top-0.1% hit rate.
 
 ## Software
 

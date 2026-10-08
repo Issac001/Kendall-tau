@@ -1,81 +1,77 @@
-# Code index
+# Code-to-manuscript index
 
-All commands below are run from `paper-reproduction/`.
-
-## Environment setup
-
-| File | Role |
-|---|---|
-| `config/install_dependencies.R` | installs the R packages used by the four reproduction workflows |
+All commands are run from `paper-reproduction/`. The manuscript standard is
+the PDF fingerprinted in `MANUSCRIPT_REFERENCE.md`.
 
 ## Shared implementation
 
 | File | Role |
 |---|---|
-| `code/common/wcrit_common.R` | permutation, strict-foldover, seed, metric, and C++ loading utilities |
+| `code/common/wcrit_common.R` | permutation, strict-foldover, deterministic-seed, and design-metric utilities |
 | `code/common/wcrit_maximin_dist.R` | Hamming and component-position L2 maximin utilities |
-| `code/common/sa_core.cpp` | compiled incremental FSA-KD/Kendall routines |
-| `code/common/case_study_common.R` | Mallows-GP, prediction, EI, and application-design helpers |
-| `code/common/paper_plot_style.R` | common manuscript plotting theme and method scales |
+| `code/common/sa_core.cpp` | compiled incremental FSA-KD routines |
+| `code/common/case_study_common.R` | Mallows-GP, prediction, EI, and application helpers |
+| `code/common/paper_plot_style.R` | manuscript plotting theme and method scales |
+| `code/validate_release.R` | fast read-only cardinality, method-set, scenario, and published-value audit |
 
-## Appendix B.1 and Section 5.1
+## Section 5.1 and Appendix B.1
 
-| File | Manuscript output or role |
+| File | PDF output or role |
 |---|---|
-| `code/section5_1/run_lambda_sensitivity.R` | Appendix B.1 lambda-sensitivity searches |
-| `code/section5_1/make_lambda_sensitivity_figures.R` | Figures B1--B2 |
-| `code/section5_1/run_geometry_factorial.R` | 3-by-5 strict-foldover four-method experiment |
-| `code/section5_1/make_geometry_tradeoff_figures.R` | Section 5.1 `c=1` figure and Appendix B `c=4` figure |
-| `code/section5_1/section5_1_helpers.R` | paper-only strict-foldover search and diagnostics |
+| `code/section5_1/run_geometry_factorial.R` | 3-by-5, four-method strict-foldover experiment |
+| `code/section5_1/section5_1_helpers.R` | construction and diagnostic API |
+| `code/section5_1/make_geometry_tradeoff_figures.R` | Figure 1 at `c=1` and Figure B1 at `c=4` |
+| `data/section5_1/geometry_four_method_raw_metrics.csv` | 3,000 frozen plotted rows |
 
-The plotting inputs under `data/section5_1/` contain only the four published
-methods for the formal comparison. SRS is the no-search random strict-foldover
-design; it is not described or implemented as an SA method.
+SRS is the no-search random strict-foldover design. The removed historical
+lambda-sensitivity experiment is not part of the current Appendix B.1.
 
-## Section 5.2
+## Section 5.2 and Appendix B.2
 
-| File | Role |
+| File | PDF output or role |
 |---|---|
-| `code/section5_2/run_model_specific.R` | Experiment 29 driver fixed to four methods and four response scenarios |
+| `code/section5_2/run_model_specific.R` | fresh four-method PWO/Mallows-GP experiment |
 | `code/section5_2/search_core.R` | paired strict-foldover construction core |
-| `code/section5_2/model_core.R` | full-S6 PWO and Mallows-GP evaluation core |
-| `code/section5_2/summarize_paper_results.R` | `n=48,60` paper table and paired intervals |
+| `code/section5_2/model_core.R` | full-S6 response, fitting, and prediction core |
+| `code/section5_2/summarize_paper_results.R` | Table 1 |
+| `data/frozen/section5_2/formal_parent_projection/` | exact Table 1 rows, designs, seeds, and parent held-out sets |
 
-The four response scenarios are PWO at SNR 2 and 5 and Mallows GP at `c=1`
-and `c=4`, with the kernel scale estimated by REML. The paper FSA-KD arm is
-fixed to `lambda=0.5`.
+The frozen projection reproduces the current PDF numbers. The fresh runner
+implements the four-method held-out union written in the PDF; the documented
+domain distinction can slightly change nRMSE.
 
-## Section 5.3
+## Section 5.3: four-drug case
 
-| File | Role |
+| File | PDF output or role |
 |---|---|
-| `code/section5_3/build_initial_design_bank.R` | reconstructs and SHA-checks only the five published initial designs |
-| `code/section5_3/run_four_drug_mallows_gp.R` | held-out prediction and six EI additions under the sole intercept-only Mallows GP |
-| `code/section5_3/make_paper_table.R` | held-out nRMSE, cumulative regret, and top-one-at-16 table |
+| `code/section5_3/build_initial_design_bank.R` | reconstruct and SHA-check the five reported initial designs |
+| `code/section5_3/run_four_drug_mallows_gp.R` | nugget-aware intercept-only Mallows-GP prediction and six EI additions |
+| `code/section5_3/make_paper_table.R` | Table 2 |
+| `data/frozen/section5_3/experiment21_parent/` | design bank, label maps, held-out folds, seeds, and step-zero summaries |
+| `data/frozen/section5_3/paper_results/` | compact formal recommendation projection used by Table 2 |
 
-The compact parent input under `data/frozen/section5_3/experiment21_parent/`
-contains only the paper methods and intercept-only Mallows step-zero summaries.
-`ORIGINAL_PARENT_SHA256.csv` maps every derived subset back to its frozen
-Experiment 21 source.
+## Section 5.3: PCB case
 
-## Section 5.4
+The stable internal code directory remains `section5_4`.
 
-| File | Role |
+| File | PDF output or role |
 |---|---|
-| `code/section5_4/build_frozen_inputs.R` | reconstructs and verifies only the four paper designs and the five-profile `g100_w050` exact oracle |
-| `code/section5_4/pcb_common.R` | strong mixed-physics response and common Kendall--adjacency GP |
-| `code/section5_4/run_experiment24_paper.R` | 30 paired BO paths, fixed to `g100_w050` and four methods |
-| `code/section5_4/make_pcb_bo_figure.R` | manuscript Figure 6 |
+| `code/section5_4/build_frozen_inputs.R` | reconstruct four reported designs and five-profile exact oracle |
+| `code/section5_4/pcb_common.R` | fixed mixed-physics response and common surrogate |
+| `code/section5_4/run_experiment24_paper.R` | 30 BO blocks at `(gamma,omega)=(1,0.5)` |
+| `code/section5_4/make_pcb_bo_figure.R` | Figure 2, final 4:3 rendering |
+| `code/section5_4/make_pcb_table.R` | Table 3 |
+| `data/frozen/section5_4/` | coordinates, profiles, designs, oracle, pool seeds, curve, and Table 3 source |
 
-The runner reads the paper-only design and exact-oracle projections in
-`data/frozen/section5_4/`; its entry point has no alternative gamma, omega,
-method, or surrogate branch.
+## Tracked final assets
 
-## Data inputs
+`manuscript_assets/` contains the exact three source PDFs and three table CSVs
+used by the review manuscript. Generated working files under `outputs/` remain
+ignored.
+
+## External case-study data
 
 | File | Source |
 |---|---|
 | `data/case_studies/four_drug_oofaexp_0.1.0.csv` | `OofAExp::dat.4drug`, package version 0.1.0 |
-| `data/case_studies/d493_first10_holes.csv` | fixed depot plus first ten holes of TSPLIB `d493` |
-
-Full attribution and source hashes are in `data/case_studies/README.md`.
+| `data/case_studies/d493_first10_holes.csv` | fixed depot and first ten selected TSPLIB `d493` holes |

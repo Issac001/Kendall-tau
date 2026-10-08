@@ -28,6 +28,18 @@ The exact original-to-public mapping is recorded in
 
 From `paper-reproduction/`:
 
+To reproduce the current PDF Table 2 immediately from the compact frozen
+formal projection:
+
+```sh
+Rscript code/section5_3/make_paper_table.R
+```
+
+The result is written to `outputs/section5_3_paper_sources/`. The tracked
+projection contains the exact five-method recommendation checkpoints used by
+the table, so a new 20-by-24-by-3 sequential run is not required merely to
+audit the published values.
+
 To reconstruct and SHA-check all five initial-design sequences from the frozen
 seeds before running the case study:
 
@@ -49,10 +61,11 @@ The formal defaults are 20 paired design seeds, all 24 component-label maps,
 three held-out response folds, 12 initial runs, and six EI additions.  The
 master seed is `20260820`.
 
-After completion:
+After a fresh formal completion, summarize that run with:
 
 ```sh
 env SEC53_RUN_DIR=outputs/wcrit/<formal-run> \
+  SEC53_OUTPUT_DIR=outputs/section5_3_fresh_paper_sources \
   Rscript code/section5_3/make_paper_table.R
 ```
 
